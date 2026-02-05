@@ -4,13 +4,23 @@
 
 This document describes the declarations present in `libcwii.h` 
 
-To use this API, include the header:
+To use this API on cwii, include the header:
 
 ```c
 #include "libcwii.h"
 ```
 
+and for cwx:
+
+```c
+#include "libcwx.h"
+```
+
 No additional includes are required for the examples in this document.
+
+Note:
+
+Due to limitations of the cwx system, the default configuration of libcwx specifies that there is only 2kb of heap, and 3kb of fs (64 nodes), and the screen is only 1bbp so therefore only black and white is present)
 
 ## Conventions
 
@@ -24,6 +34,8 @@ No additional includes are required for the examples in this document.
   - `TUI_COLOUR_DARK_GREY` (2)
   - `TUI_COLOUR_BLACK` (3)
   - `TUI_COLOUR_IMAGE` (special handling for two-bitplane images)
+
+Note: light grey and dark grey colours are not available for cwx, and on cwx, colour image and colour black are the same)
 
 ## Forward declarations
 
@@ -101,8 +113,7 @@ Draw a line where its on/off pattern is stretched to the full line length.
   - `thickness`: Thickness (interpreted by `tui_set_pixel`).
 - **Pattern format**
   - Bit index 0 is taken from `data[0]` MSB (mask `0x80`), then `0x40`, etc.
-  - The pattern is *stretched* across the line length: the $i$th pixel samples bit
-    $$\left\lfloor \frac{i\cdot\text{bit\_length}}{\text{line\_len}}\right\rfloor$$
+  - The pattern is *stretched* across the line length: the i-th pixel samples bit `floor((i * bit_length) / line_len)`
 
 **Example: draw a “grow-to-fit” dashed line**
 
